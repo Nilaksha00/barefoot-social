@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — Barefoot Social
+   Clean black and white. Warmth comes from the photography, not the palette.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #ffffff;
+  --color-sand: #f2f2f0;
+  --color-ink: #0e0e0e;
+  --color-ink-soft: #333333;
+  --color-mute: #6f6f6f;
+  --color-line: rgb(14 14 14 / 0.12);
+
+  --tracking-brand: 0.42em;
+  --tracking-wide-plus: 0.22em;
+
+  --text-display: clamp(3.25rem, 11vw, 10.5rem);
+  --text-display--line-height: 0.92;
+  --text-headline: clamp(2.5rem, 6.5vw, 6rem);
+  --text-headline--line-height: 0.98;
+  --text-title: clamp(1.75rem, 3.2vw, 2.75rem);
+  --text-title--line-height: 1.08;
+  --text-lede: clamp(1.15rem, 1.8vw, 1.6rem);
+  --text-lede--line-height: 1.45;
+
+  --radius-card: 1.75rem;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-drift: drift 9s ease-in-out infinite alternate;
+
+  @keyframes drift {
+    from { transform: translateX(-3%); }
+    to { transform: translateX(3%); }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+  }
+  h1, h2, h3 {
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 1.5px solid currentColor;
+    outline-offset: 4px;
+  }
+}
+
+@layer utilities {
+  /* Underline that draws in from the left on hover and retracts to the right. */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    padding-bottom: 2px;
+    transition: background-size 0.6s var(--ease-out-expo);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-position: 0% 100%;
+    background-size: 100% 1px;
+  }
+
+  /* Film grain used on placeholder media and dark sections */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
