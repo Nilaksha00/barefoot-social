@@ -24,7 +24,7 @@ The photos are free Unsplash samples (listed in `src/content/photos.ts`) and wil
 ## Sitemap
 
 ```
-/            Home (hero, intro, Eat/Drink/Stay/Surf blocks, food, bar, rooms, surf, social collage, Instagram, location, closing CTA)
+/            Home (hero, intro, food, bar, rooms, surf, social collage, Instagram, location, closing CTA)
 /eat         Eat (philosophy, highlights, signature dishes, breakfast, gallery + lightbox, menu)
 /drink       Drink (introduction, Sri Lankan flavours, signature cocktails, bar experience, gallery, menu, hours)
 /stay        Stay (Private Room 01, Private Room 02, Shared Hostel Room, facilities, booking info, FAQs)

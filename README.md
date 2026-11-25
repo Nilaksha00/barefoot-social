@@ -28,14 +28,14 @@ npm run lint
 src/
 ├─ app/                     Routes: one folder per page
 │  ├─ layout.tsx            Fonts, metadata, header/footer, providers
-│  ├─ page.tsx              Home (12 sections)
+│  ├─ page.tsx              Home (Eat, Drink, Stay and Surf each get their own section)
 │  ├─ eat | drink | stay | surf | our-story | find-us | privacy/
 │  ├─ sitemap.ts, robots.ts, not-found.tsx
 │  └─ globals.css           Design tokens (colour, type scale, easing)
 ├─ components/
 │  ├─ layout/               Header, Footer, Providers (Lenis + MotionConfig), LocalClock
 │  ├─ sections/
-│  │  ├─ home/              Hero, Intro, Pillars, InstagramGrid
+│  │  ├─ home/              Hero, Intro, InstagramGrid
 │  │  └─ shared/            PageIntro, Editorial, ImageTiles, ShowcaseGrid, Banner, Collage,
 │  │                        RoomCards, MenuPanel, Location, EnquiryForm, FaqList, ClosingCta, Blocks
 │  └─ ui/                   Primitives: Button, Photo, Media, Gallery (lightbox), Placeholder, Logo, Reveal…
