@@ -48,7 +48,7 @@ export function ClosingCta({
         className={
           panel
             ? "grid gap-12 py-24 md:grid-cols-12 md:items-center md:gap-x-10 md:py-32"
-            : "flex min-h-[80svh] flex-col items-center justify-center py-28 text-center"
+            : "flex min-h-[68svh] flex-col md:min-h-[80svh] items-center justify-center py-28 text-center"
         }
       >
         <div className={panel ? "md:col-span-5" : "max-w-4xl"}>

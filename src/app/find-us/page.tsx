@@ -32,7 +32,7 @@ export default function FindUsPage() {
         body="Barefoot Social is located in Weligama, Sri Lanka."
       />
 
-      <section id="enquire" className="scroll-mt-24 bg-sand py-20 md:py-32">
+      <section id="enquire" className="scroll-mt-24 bg-sand py-28 md:py-32">
         <Container className="grid gap-12 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
           <Reveal className="md:col-span-4">
             <Eyebrow>Enquiry</Eyebrow>

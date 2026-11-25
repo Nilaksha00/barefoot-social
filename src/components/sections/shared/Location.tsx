@@ -95,7 +95,7 @@ export function MapEmbed({ className }: { className?: string }) {
         src={site.address.embedUrl}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
-        className="h-[55svh] min-h-[320px] w-full grayscale contrast-[1.05] md:h-full md:min-h-[480px]"
+        className="h-[320px] w-full grayscale contrast-[1.05] md:h-full md:min-h-[480px]"
       />
     </div>
   );
@@ -136,7 +136,7 @@ export function LocationSection({
   compact?: boolean;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 py-20 md:py-32">
+    <section id={id} className="scroll-mt-24 py-28 md:py-32">
       <Container>
         <Reveal className="max-w-3xl">
           <Eyebrow>{eyebrow}</Eyebrow>

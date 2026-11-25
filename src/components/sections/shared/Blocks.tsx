@@ -34,7 +34,7 @@ export function Section({
   const card = surface === "sand";
   return (
     <section className={cn(card && "px-3 md:px-6", className)}>
-      <div className={cn("relative overflow-hidden py-20 md:py-32", card && "rounded-[var(--radius-card)]", surfaces[surface])}>
+      <div className={cn("relative overflow-hidden py-28 md:py-32", card && "rounded-[var(--radius-card)]", surfaces[surface])}>
         {surface === "ink" && <div aria-hidden className="grain pointer-events-none absolute inset-0" />}
         <Container className="relative">
           <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -44,7 +44,7 @@ export function Section({
             </div>
             {aside}
           </Reveal>
-          <div className="mt-12 md:mt-16">{children}</div>
+          <div className="mt-14 md:mt-16">{children}</div>
         </Container>
       </div>
     </section>

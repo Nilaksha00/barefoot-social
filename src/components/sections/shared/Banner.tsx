@@ -31,7 +31,7 @@ export function Banner({
         className="absolute inset-0 -z-10 size-full"
       />
       <div aria-hidden className="absolute inset-0 -z-10 bg-ink/50" />
-      <Container className={cn("flex min-h-[75svh] items-end py-16 md:items-center md:py-24", align === "right" && "md:justify-end")}>
+      <Container className={cn("flex min-h-[62svh] items-end md:min-h-[75svh] py-16 md:items-center md:py-24", align === "right" && "md:justify-end")}>
         <Reveal className="max-w-xl">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
           <h2 className="mt-4 text-heading uppercase">{title}</h2>

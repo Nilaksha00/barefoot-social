@@ -34,7 +34,7 @@ export function ImageTiles({
   className?: string;
 }) {
   return (
-    <ul className={cn("grid gap-3", grids[columns], className)}>
+    <ul className={cn("grid gap-6 md:gap-3", grids[columns], className)}>
       {tiles.map((tile, i) => (
         <li key={tile.title}>
           <Reveal delay={i * 0.08} y={20}>

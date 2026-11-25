@@ -17,14 +17,14 @@ const columns = [
  */
 export function Collage({ shots }: { shots: Shot[] }) {
   return (
-    <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-12 md:gap-x-4">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-12 md:gap-x-4">
       {columns.map((column, c) => (
         <div key={c} className={cn("contents md:flex md:flex-col md:gap-6", column.span, column.offset)}>
           {column.cells.map((cell, n) => {
             const shot = shots[cell.i];
             if (!shot) return null;
             return (
-              <figure key={cell.i} className={cn(cell.wide && "max-md:col-span-2")}>
+              <figure key={cell.i} className={cn(cell.wide && "max-md:col-span-2", cell.i >= 4 && "max-md:hidden")}>
                 <Reveal delay={(c * 2 + n) * 0.06} y={24}>
                   <Photo media={shot.media} label={false} sizes="(min-width: 768px) 40vw, 100vw" className={cell.ratio} />
                   {shot.caption && (

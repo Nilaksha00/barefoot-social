@@ -23,7 +23,7 @@ export default function OurStoryPage() {
       <PageIntro intro={story.intro} />
 
       {/* The story, set as an editorial spread: a heading in the margin, the words beside it. */}
-      <section className="py-20 md:py-32">
+      <section className="py-28 md:py-32">
         <Container className="grid gap-10 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
           <Reveal className="md:col-span-4">
             <Eyebrow>The story</Eyebrow>
@@ -44,7 +44,7 @@ export default function OurStoryPage() {
         <StepGrid steps={story.philosophy} columns={4} />
       </Section>
 
-      <section className="py-20 md:py-32">
+      <section className="py-28 md:py-32">
         <Container>
           <Reveal className="max-w-3xl">
             <Eyebrow>{story.community.eyebrow}</Eyebrow>

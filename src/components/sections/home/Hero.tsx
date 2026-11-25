@@ -2,7 +2,7 @@
 
 import { animate, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/Button";
+import { ArrowDown, ArrowUpRight } from "@/components/ui/icons";
 import { LogoMark } from "@/components/ui/Logo";
 import { SplitText } from "@/components/ui/SplitText";
 import { hero } from "@/content/home";
@@ -39,7 +39,7 @@ export function Hero() {
 
   return (
     <section ref={ref} className="home-shoreline">
-      <div className="home-shoreline-film isolate flex min-h-svh flex-col items-center justify-center overflow-hidden bg-ink px-5 pb-24 pt-32 text-center text-paper">
+      <div className="home-shoreline-film isolate flex min-h-svh flex-col items-center justify-center overflow-hidden bg-ink px-5 pb-32 pt-32 text-center text-paper">
         {/* Background */}
         <motion.div style={reduce ? undefined : { scale }} className="absolute inset-0 -z-10">
           {/* eslint-disable-next-line @next/next/no-img-element -- plain poster behind the video, no layout cost */}
@@ -91,19 +91,25 @@ export function Hero() {
             {hero.body}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease, delay: 1.7 }}
-            className="mt-10 flex flex-wrap justify-center gap-3"
-          >
-            <Button href="#explore" variant="light">
-              Explore Barefoot
-            </Button>
-            <Button href={site.bookingUrl} variant="outline-light">
-              {site.bookLabel}
-            </Button>
-          </motion.div>
+        </motion.div>
+
+        {/* Two quiet text links on a hairline, instead of a pair of pill buttons. */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 1.8 }}
+          className="absolute inset-x-0 bottom-8 px-5 md:bottom-10 md:px-10"
+        >
+          <div className="mx-auto flex max-w-[1440px] items-center justify-between border-t border-paper/30 pt-5 text-[11px] font-medium uppercase tracking-wide-plus md:text-xs">
+            <a href="#explore" className="group flex items-center gap-3">
+              <span className="link-underline">Explore Barefoot</span>
+              <ArrowDown className="size-4 transition-transform duration-500 ease-out-expo group-hover:translate-y-1" />
+            </a>
+            <a href={site.bookingUrl} target="_blank" rel="noreferrer" className="group flex items-center gap-3">
+              <span className="link-underline">{site.bookLabel}</span>
+              <ArrowUpRight className="size-4 transition-transform duration-500 ease-out-expo group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+          </div>
         </motion.div>
       </div>
       <div className="shore-wave" aria-hidden="true">

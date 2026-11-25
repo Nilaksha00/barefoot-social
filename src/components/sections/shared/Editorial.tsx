@@ -36,15 +36,15 @@ export function Editorial({
   extras = [],
   reverse,
   surface = "plain",
-  ratio = "aspect-[4/5]",
+  ratio = "aspect-[4/3] md:aspect-[4/5]",
   children,
   id,
   className,
 }: EditorialProps) {
   const hasPhoto = Boolean(main);
   return (
-    <section id={id} className={cn("scroll-mt-24 py-20 md:py-32", surface === "sand" && "bg-sand", className)}>
-      <Container className="grid items-center gap-10 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
+    <section id={id} className={cn("scroll-mt-24 py-28 md:py-32", surface === "sand" && "bg-sand", className)}>
+      <Container className="grid items-center gap-14 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
         <div
           className={cn(
             "md:row-start-1",
@@ -71,7 +71,7 @@ export function Editorial({
           {extras.length > 0 && (
             <ul
               className={cn(
-                "mt-10 grid gap-3",
+                "mt-10 hidden gap-3 md:grid",
                 extras.length === 2 && "grid-cols-2",
                 extras.length >= 3 && "grid-cols-3",
               )}

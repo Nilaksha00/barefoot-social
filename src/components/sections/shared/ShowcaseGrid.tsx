@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  */
 export function ShowcaseGrid({ items, columns = 4 }: { items: Showcase[]; columns?: 3 | 4 }) {
   return (
-    <ul className={cn("grid gap-x-4 gap-y-12", columns === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3")}>
+    <ul className={cn("grid gap-x-4 gap-y-16", columns === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "md:grid-cols-3")}>
       {items.map((item, i) => (
         <li key={item.name} className={cn("group", i % 2 === 1 && (columns === 4 ? "lg:mt-12" : "md:mt-12"))}>
           <Reveal delay={(i % 4) * 0.08} y={20}>

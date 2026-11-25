@@ -32,7 +32,7 @@ export default function HomePage() {
       <Editorial copy={foodPreview.copy} main={foodPreview.main} extras={foodPreview.extras} />
       <Editorial copy={barPreview.copy} main={barPreview.main} extras={barPreview.extras} reverse surface="sand" />
 
-      <section className="py-20 md:py-32">
+      <section className="py-28 md:py-32">
         <Container>
           <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
@@ -42,7 +42,7 @@ export default function HomePage() {
             </div>
             <Button href={stayPreview.cta.href}>{stayPreview.cta.label}</Button>
           </Reveal>
-          <div className="mt-12 md:mt-16">
+          <div className="mt-14 md:mt-16">
             <RoomCards rooms={stay.rooms} />
           </div>
         </Container>
@@ -50,14 +50,14 @@ export default function HomePage() {
 
       <Banner {...surfPreview} />
 
-      <section className="py-20 md:py-32">
+      <section className="py-28 md:py-32">
         <Container>
           <Reveal className="max-w-3xl">
             <Eyebrow>{social.eyebrow}</Eyebrow>
             <h2 className="mt-4 text-heading uppercase">{social.title}</h2>
             <p className="mt-6 max-w-[48ch] text-lg leading-relaxed text-ink-soft">{social.body}</p>
           </Reveal>
-          <div className="mt-12 md:mt-16">
+          <div className="mt-14 md:mt-16">
             <Collage shots={social.shots} />
           </div>
         </Container>
