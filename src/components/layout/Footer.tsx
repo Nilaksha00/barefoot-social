@@ -28,7 +28,7 @@ export function Footer() {
         {/* Brand */}
         <div className="md:col-span-4">
           <Link href="/" aria-label={`${site.name} home`} className="inline-flex items-center gap-4">
-            <LogoMark className="w-12" />
+            <LogoMark className="w-14 md:w-16" />
             <span className="text-[15px]">
               <Wordmark />
             </span>
@@ -47,7 +47,7 @@ export function Footer() {
                       target={href.startsWith("http") ? "_blank" : undefined}
                       rel="noreferrer"
                       aria-label={label}
-                      className="flex size-10 items-center justify-center rounded-full border border-line transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper"
+                      className="bubble-button flex size-10 items-center justify-center rounded-full border border-line transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper"
                     >
                       <Icon className="size-[18px]" />
                     </a>

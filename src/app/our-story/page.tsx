@@ -3,7 +3,6 @@ import { Section, StepGrid } from "@/components/sections/shared/Blocks";
 import { ClosingCta } from "@/components/sections/shared/ClosingCta";
 import { Collage } from "@/components/sections/shared/Collage";
 import { ImageTiles } from "@/components/sections/shared/ImageTiles";
-import { LocationSection } from "@/components/sections/shared/Location";
 import { PageIntro } from "@/components/sections/shared/PageIntro";
 import { Container, Eyebrow } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -58,8 +57,6 @@ export default function OurStoryPage() {
       <Section eyebrow={story.experience.eyebrow} title={story.experience.title} surface="sand">
         <Collage shots={story.experience.shots} />
       </Section>
-
-      <LocationSection title="Weligama, Sri Lanka." body="Barefoot Social is located in Weligama, on the south coast of Sri Lanka." />
 
       <ClosingCta {...story.cta} secondary={{ label: "Find Us", href: "/find-us" }} />
     </>

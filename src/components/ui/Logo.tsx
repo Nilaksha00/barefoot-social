@@ -1,48 +1,47 @@
-"use client";
-
-import { motion } from "motion/react";
-import { ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-/**
- * Line-drawn approximation of the palm + wave mark.
- * TODO(client): replace the paths with the official vector logo.
- */
-const markPaths = [
-  // shoreline
-  "M6 70 C30 64 74 64 114 69",
-  // palm trunk
-  "M36 67 C37 54 39 40 46 26",
-  // fronds
-  "M46 26 C37 18 24 18 14 27",
-  "M46 26 C40 14 30 9 19 10",
-  "M46 26 C47 15 53 8 62 6",
-  "M46 26 C55 18 66 19 73 27",
-  "M46 26 C55 27 61 33 63 42",
-  // wave curl
-  "M72 67 C84 66 97 60 101 46 C104 35 96 28 87 31 C80 34 81 43 88 44",
-  // spray
-  "M104 40 C108 37 111 37 114 38",
-  "M103 33 C106 29 109 28 112 28",
+// Brush strokes in the cropped artwork's 516 × 377 coordinate system.
+const strokes = [
+  { d: "M1 342 Q79 300 174 332 C258 362 330 374 390 370", width: 32, start: 0, duration: 520 },
+  { d: "M78 323 Q97 235 166 132", width: 39, start: 380, duration: 370 },
+  { d: "M166 132 Q191 37 113 3", width: 56, start: 680, duration: 225 },
+  { d: "M166 132 Q108 41 30 93", width: 59, start: 820, duration: 230 },
+  { d: "M166 132 Q91 111 43 186", width: 53, start: 965, duration: 215 },
+  { d: "M166 132 Q249 62 313 113", width: 49, start: 1110, duration: 210 },
+  { d: "M166 132 Q243 123 274 193", width: 48, start: 1250, duration: 205 },
+  { d: "M166 132 Q223 190 185 264", width: 44, start: 1390, duration: 230 },
+  { d: "M216 330 C310 324 359 381 515 345", width: 26, start: 1530, duration: 380 },
+  { d: "M413 341 C305 331 253 271 311 206 S430 144 515 198", width: 96, start: 1790, duration: 590 },
+  { d: "M378 326 L389 294 Q390 280 415 278 L432 273 L429 245 L427 218", width: 34, start: 2260, duration: 300 },
+  { d: "M428 246 Q407 236 373 236", width: 17, start: 2490, duration: 160 },
+  { d: "M433 243 Q456 254 459 301", width: 18, start: 2550, duration: 165 },
+  { d: "M349 309 Q365 312 398 328", width: 25, start: 2660, duration: 170 },
 ];
 
 export function LogoMark({ className, animated = false }: { className?: string; animated?: boolean }) {
   return (
-    <svg viewBox="0 0 120 76" fill="none" aria-hidden className={cn("text-current", className)}>
-      {markPaths.map((d, i) => (
-        <motion.path
-          key={d}
-          d={d}
-          stroke="currentColor"
-          strokeWidth={2.6}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={animated ? { pathLength: 0, opacity: 0 } : false}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.4, ease, delay: 0.2 + i * 0.08 }}
-        />
-      ))}
-    </svg>
+    <span
+      aria-hidden="true"
+      className={cn(
+        "block aspect-[516/377] shrink-0 bg-current mask-[url('/images/barefoot-social-mark.png')] mask-contain mask-center mask-no-repeat",
+        animated && "logo-drawing",
+        className,
+      )}
+    >
+      {animated && (
+        <svg viewBox="0 0 516 377" fill="none" stroke="currentColor" strokeLinecap="round">
+          {strokes.map(({ d, width, start, duration }) => (
+            <path
+              key={d}
+              d={d}
+              strokeWidth={width}
+              pathLength="1"
+              style={{ animationDelay: `${start}ms`, animationDuration: `${duration}ms` }}
+            />
+          ))}
+        </svg>
+      )}
+    </span>
   );
 }
 

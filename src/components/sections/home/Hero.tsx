@@ -66,8 +66,8 @@ export function Hero() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/40 via-transparent to-ink/50" />
 
         {/* Minimal on purpose: the mark, the name, where we are, and one quiet line. */}
-        <motion.div style={reduce ? undefined : { y, opacity }} className="flex flex-col items-center">
-          <LogoMark animated className="w-20 md:w-28" />
+        <motion.div style={reduce ? undefined : { y, opacity }} className="flex w-full flex-col items-center">
+          <LogoMark animated className="w-28 md:w-40" />
 
           <motion.h1
             initial={{ opacity: 0, letterSpacing: "0.08em" }}

@@ -5,8 +5,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Wordmark } from "@/components/ui/Logo";
-import { Magnetic } from "@/components/ui/Magnetic";
+import { LogoMark, Wordmark } from "@/components/ui/Logo";
 import { site } from "@/content/site";
 import { ease } from "@/lib/motion";
 import { cn, emailLink, indexLabel, whatsappLink } from "@/lib/utils";
@@ -59,7 +58,8 @@ export function Header() {
                   <span className={cn("absolute bottom-0 left-0 h-px w-full bg-current transition-transform duration-500 ease-out-expo", open && "-translate-y-[4px] -rotate-45")} />
                 </span>
               </button>
-              <Link href="/" onClick={close} aria-label={`${site.name} home`} className="text-[14px] md:text-[15px]">
+              <Link href="/" onClick={close} aria-label={`${site.name} home`} className="inline-flex items-center gap-2 text-[14px] md:gap-3 md:text-[15px]">
+                <LogoMark className="w-9 md:w-11" />
                 <Wordmark />
               </Link>
             </div>
@@ -74,7 +74,7 @@ export function Header() {
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "relative z-10 block rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wide-plus transition-colors duration-300",
+                          "bubble-button relative z-10 block rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wide-plus transition-colors duration-300",
                           active ? (onPhoto ? "text-ink" : "text-paper") : onPhoto ? "hover:bg-paper/15" : "hover:bg-ink/5",
                         )}
                       >
@@ -94,22 +94,20 @@ export function Header() {
             </nav>
 
             <div className="relative z-10 flex items-center gap-2">
-              <Magnetic>
-                <a
-                  href={site.bookingUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={cn(
-                    "inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-full px-4 text-[11px] font-medium uppercase tracking-wide-plus transition-colors duration-500 sm:px-5 md:h-12",
-                    onPhoto ? "bg-paper text-ink hover:bg-paper/85" : "bg-ink text-paper hover:bg-ink-soft",
-                  )}
-                >
-                  <span className="hidden size-1.5 animate-pulse rounded-full bg-current sm:block" aria-hidden />
-                  <span>
-                    Book<span className="hidden sm:inline"> Your Stay</span>
-                  </span>
-                </a>
-              </Magnetic>
+              <a
+                href={site.bookingUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  "bubble-button inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-full px-4 text-[11px] font-medium uppercase tracking-wide-plus transition-colors duration-300 sm:px-5 md:h-12",
+                  onPhoto ? "bg-paper text-ink hover:bg-sand" : "bg-ink text-paper hover:bg-ink-soft",
+                )}
+              >
+                <span className="hidden size-1.5 animate-pulse rounded-full bg-current sm:block" aria-hidden />
+                <span>
+                  Book<span className="hidden sm:inline"> Your Stay</span>
+                </span>
+              </a>
             </div>
           </div>
         </div>

@@ -24,7 +24,7 @@ export function FaqList({ faqs }: { faqs: Faq[] }) {
               onClick={() => setOpen(isOpen ? null : i)}
               className="group flex w-full items-center justify-between gap-6 py-6 text-left text-lg md:text-xl"
             >
-              <span className="transition-transform duration-500 ease-out-expo group-hover:translate-x-1.5">{faq.question}</span>
+              <span className="transition-colors duration-300 group-hover:text-mute">{faq.question}</span>
               <span
                 className={cn(
                   "flex size-10 shrink-0 items-center justify-center rounded-full border transition-colors duration-500",
