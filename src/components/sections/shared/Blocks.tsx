@@ -63,7 +63,7 @@ export function StepGrid({ steps, columns = 3 }: { steps: Step[]; columns?: 2 | 
           <Reveal delay={0.15 + i * 0.08} className="pt-6">
             <span className="text-[11px] tracking-wide-plus opacity-50">{indexLabel(i)}</span>
             <h3 className="mt-6 text-2xl uppercase">{step.title}</h3>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed opacity-70">{step.description}</p>
+            <p className="mt-3 max-w-sm text-base leading-relaxed opacity-75">{step.description}</p>
           </Reveal>
         </li>
       ))}
@@ -79,7 +79,7 @@ export function MenuList({ groups }: { groups: MenuGroup[] }) {
         <Reveal key={group.title}>
           <div className="flex items-baseline justify-between pb-4">
             <h3 className="text-xl uppercase tracking-wide-plus">{group.title}</h3>
-            {group.note && <span className="text-xs tabular-nums text-mute">{group.note}</span>}
+            {group.note && <span className="text-sm tabular-nums text-mute">{group.note}</span>}
           </div>
           <LineDraw className="bg-ink" />
           <ul className="divide-y divide-line">
@@ -88,12 +88,12 @@ export function MenuList({ groups }: { groups: MenuGroup[] }) {
                 <Reveal delay={0.1 + i * 0.05} y={12} className="group/item flex items-start justify-between gap-6 py-5">
                   <div className="transition-transform duration-500 ease-out-expo group-hover/item:translate-x-1.5">
                     <p className="text-lg">{item.name}</p>
-                    <p className="mt-1 text-sm text-mute">{item.description}</p>
+                    <p className="mt-1 text-base leading-relaxed text-mute">{item.description}</p>
                   </div>
                   {item.tags && (
                     <span className="flex shrink-0 gap-1.5">
                       {item.tags.map((tag) => (
-                        <span key={tag} className="rounded-full border border-line px-2 py-0.5 text-[10px] tracking-wide-plus text-mute">
+                        <span key={tag} className="rounded-full border border-line px-2 py-0.5 text-xs tracking-wide text-mute">
                           {tag}
                         </span>
                       ))}

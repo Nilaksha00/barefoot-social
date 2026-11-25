@@ -1,26 +1,27 @@
 import { Container, Eyebrow } from "@/components/ui/Container";
-import { Reveal } from "@/components/ui/Reveal";
-import { ScrollText } from "@/components/ui/ScrollText";
-import { SplitText } from "@/components/ui/SplitText";
+import { ImageReveal } from "@/components/ui/ImageReveal";
+import { Media } from "@/components/ui/Media";
 import { intro } from "@/content/home";
+import { photos } from "@/content/photos";
 
-/** The story: label and heading on the left, the copy on the right, lit word by word as you scroll. */
 export function Intro() {
   return (
-    <section className="py-28 md:py-44">
-      <Container className="grid gap-12 md:grid-cols-12 md:gap-10">
-        <div className="md:col-span-5">
-          <Reveal>
-            <Eyebrow>{intro.eyebrow}</Eyebrow>
-          </Reveal>
-          <SplitText as="h2" text={intro.title} className="mt-5 block text-headline uppercase md:mt-6" />
+    <section aria-labelledby="house-story" className="py-14 md:py-20">
+      <Container className="grid items-center gap-7 md:grid-cols-2 md:gap-10 lg:gap-16">
+        <div className="max-w-xl">
+          <Eyebrow>{intro.eyebrow}</Eyebrow>
+          <h2 id="house-story" className="mt-4 text-[clamp(2rem,3.1vw,3.25rem)] leading-tight uppercase">{intro.title}</h2>
+          <div className="mt-5 max-w-[47ch] space-y-3 text-lg leading-relaxed text-ink-soft lg:text-xl">
+            {intro.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </div>
         </div>
-
-        <div className="space-y-8 md:col-span-6 md:col-start-7 md:space-y-10 md:pt-10">
-          {intro.paragraphs.map((p) => (
-            <ScrollText key={p} text={p} className="text-lede md:text-[1.85rem] md:leading-[1.4]" />
-          ))}
-        </div>
+        <ImageReveal radius="12px">
+          <Media
+            media={{ src: photos.stiltPoles, alt: "Waves breaking around wooden fishing stilts off the beach", tone: "ocean" }}
+            sizes="(min-width: 1440px) 648px, (min-width: 768px) 46vw, 95vw"
+            className="aspect-[3/2] md:aspect-[4/3] lg:aspect-[3/2]"
+          />
+        </ImageReveal>
       </Container>
     </section>
   );

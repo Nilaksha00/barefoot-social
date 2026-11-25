@@ -90,7 +90,62 @@
   }
 }
 
+.home-shoreline {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-shoreline-film {
+  position: relative;
+}
+
+.shore-wave {
+  position: relative;
+  height: clamp(6rem, 17vw, 13rem);
+  overflow: hidden;
+  pointer-events: none;
+  color: var(--color-paper);
+}
+
+.shore-wave svg {
+  position: absolute;
+  left: 50%;
+  width: max(100%, 42rem);
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home-shoreline-film {
+    position: sticky;
+    top: 0;
+  }
+
+  .shore-wave-swell {
+    animation: shore-swell 6s ease-in-out infinite alternate;
+  }
+
+  .shore-wave-crest {
+    animation: shore-break 4.5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes shore-swell {
+  from { transform: translate(3%, 3%); }
+  to { transform: translate(-5%, -3%); }
+}
+
+@keyframes shore-break {
+  from { transform: translate(-5%, 3%) scaleY(1.04); }
+  to { transform: translate(4%, -2%) scaleY(.96); }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .shore-wave {
+    height: 3.5rem;
+    margin-top: -3.5rem;
+  }
+
   *,
   *::before,
   *::after {

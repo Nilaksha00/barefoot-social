@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { MenuList, Section, StepGrid } from "@/components/sections/shared/Blocks";
-import { ClosingCta } from "@/components/sections/shared/ClosingCta";
 import { PageIntro } from "@/components/sections/shared/PageIntro";
 import { drink } from "@/content/pages";
 
@@ -19,7 +18,6 @@ export default function DrinkPage() {
       <Section eyebrow="Sample list" title="What we’re pouring">
         <MenuList groups={drink.menu} />
       </Section>
-      <ClosingCta title="See you at the bar." />
     </>
   );
 }
