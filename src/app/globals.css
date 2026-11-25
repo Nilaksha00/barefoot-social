@@ -107,18 +107,20 @@
 
 .shore-wave {
   position: relative;
-  height: clamp(6rem, 17vw, 13rem);
+  height: clamp(7rem, 19vw, 15rem);
   overflow: hidden;
   pointer-events: none;
   color: var(--color-cream);
 }
 
-.shore-wave svg {
+/* The pinned film runs right down to the section edge. A cream strip across that edge hides the half-pixel blend that would otherwise show as a hairline. */
+.home-shoreline::after {
+  content: "";
   position: absolute;
-  left: 50%;
-  width: max(100%, 42rem);
-  height: 100%;
-  transform: translateX(-50%);
+  inset: auto 0 -1px;
+  height: 3px;
+  background: var(--color-cream);
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -127,23 +129,6 @@
     top: 0;
   }
 
-  .shore-wave-swell {
-    animation: shore-swell 6s ease-in-out infinite alternate;
-  }
-
-  .shore-wave-crest {
-    animation: shore-break 4.5s ease-in-out infinite alternate;
-  }
-}
-
-@keyframes shore-swell {
-  from { transform: translate(3%, 3%); }
-  to { transform: translate(-5%, -3%); }
-}
-
-@keyframes shore-break {
-  from { transform: translate(-5%, 3%) scaleY(1.04); }
-  to { transform: translate(4%, -2%) scaleY(.96); }
 }
 
 @media (prefers-reduced-motion: reduce) {

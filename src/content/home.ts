@@ -1,11 +1,11 @@
 import { media, photos } from "@/content/photos";
-import type { EditorialCopy, MediaRef, Shot, Tile } from "@/types/content";
+import type { EditorialCopy, MediaRef, Shot } from "@/types/content";
 
 /* 1. Hero */
 export const hero = {
-  eyebrow: "Barefoot Social · Weligama",
+  brand: "Barefoot Social",
+  place: "Weligama, Sri Lanka",
   title: "Eat. Drink. Stay. Connect.",
-  body: "Your social house by the ocean. Come for the food, stay for the people.",
   video: {
     /**
      * Looping background clip. Sample footage: "Waves of the sea arriving at a beach",
@@ -27,36 +27,7 @@ export const intro = {
   paragraphs: [
     "We wanted to create a social house in Weligama where locals, surfers and travellers could all feel at home. Somewhere you can come straight from the beach for lunch, pull up a seat at the bar on your own, or stay a few nights and get to know the people around you.",
   ],
-  media: media(photos.stiltPoles, "Waves breaking around wooden fishing stilts off the beach", "ocean"),
 };
-
-/* 3. Eat. Drink. Stay. Surf. */
-export const pillars: Tile[] = [
-  {
-    title: "Eat",
-    description: "Simple, generous food made for hungry people after a day by the ocean.",
-    href: "/eat",
-    media: media(photos.riceAndCurry, "Rice and curry served on a leaf", "sand"),
-  },
-  {
-    title: "Drink",
-    description: "Cocktails with a Sri Lankan soul.",
-    href: "/drink",
-    media: media(photos.citrusCocktail, "A citrus cocktail on a bar counter", "dusk"),
-  },
-  {
-    title: "Stay",
-    description: "A laid-back base between beach days.",
-    href: "/stay",
-    media: media(photos.roomGreenery, "A bedroom opening onto tropical greenery", "palm"),
-  },
-  {
-    title: "Surf",
-    description: "Find your wave with our surf lessons.",
-    href: "/surf",
-    media: media(photos.surfers, "Surfers riding waves in Weligama Bay", "ocean"),
-  },
-];
 
 /* 4. Food preview */
 export const foodPreview: { copy: EditorialCopy; main: MediaRef; extras: MediaRef[] } = {
