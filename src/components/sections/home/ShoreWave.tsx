@@ -1,134 +1,107 @@
 "use client";
 
-import { motion, useAnimationFrame, useMotionValue, useReducedMotion, useScroll, type MotionValue } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useInView } from "motion/react";
+import { useEffect, useRef } from "react";
 
-/** The page colour, so the front wave melts into the section below the hero. */
-const FILL = "#f7f6f2";
+// Each crest occupies 100 horizontal units. The view width controls its spacing.
+const layers = [
+  { name: "far", width: 190, baseline: 39, opacity: 0.13, seconds: 28, offset: 42 },
+  { name: "near", width: 215, baseline: 51, opacity: 0.23, seconds: 20, offset: 8 },
+  { name: "breaker", width: 155, baseline: 66, opacity: 1, seconds: 13, offset: 59 },
+] as const;
 
-/**
- * One breaking wave: it rises, curls over and breaks, then settles. Its start and end
- * heights and tangents match (84 and a slope of about -0.22), so copies repeat without a seam.
- */
-const CURL_PATH =
-  "M0 84 C200 40 316 133 517 119 C637 111 693 88 762 52 C830 16 884 9 923 35 C940 46 943 61 932 73 " +
-  "C936 53 911 48 892 59 C860 79 876 109 925 116 C1083 143 1213 59 1379 76 C1440 82 1500 97 1560 84 V200 H0 Z";
-
-/** A plain rolling swell, as an open path of one period. */
-function swellPath(period: number, crest: number, trough: number) {
-  return `M0 50 C${period * 0.25} ${crest} ${period * 0.75} ${trough} ${period} 50 V100 H0 Z`;
+function waveLift(time: number, crest: number) {
+  return (1 + Math.sin(time * 0.58 + crest * 2.4)) / 2;
 }
 
-function tile(viewW: number, viewH: number, d: string) {
-  const svg =
-    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${viewW} ${viewH}' preserveAspectRatio='none'>` +
-    `<path fill='${FILL}' d='${d}'/></svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+function breakerInset(lift: number) {
+  // Inset the crest and its following trough equally toward their midpoint.
+  return 18 * (1 - lift);
 }
 
-type Layer = {
-  id: string;
-  /** Width in px of one repeating wave, given the width of the band. */
-  period: (width: number) => number;
-  image: (period: number) => string;
-  opacity: number;
-  top: string;
-  /** Idle drift to the right, in px per second. */
-  speed: number;
-  /** Extra push to the right, in px per px scrolled. */
-  scroll: number;
-};
+function wavePath(layer: (typeof layers)[number], time: number) {
+  const travel = layer.offset + (time / layer.seconds) * 100;
+  const cycle = Math.floor(travel / 100);
+  const start = travel - cycle * 100 - 100;
+  const base = layer.baseline;
+  let trough = layer.name === "breaker" ? base - breakerInset(waveLift(time, -cycle - 1)) : base;
+  let path = `M ${start} ${trough}`;
 
-/** Back to front: two faint swells, then the solid breaking wave in the page colour. */
-const layers: Layer[] = [
-  {
-    id: "swell-far",
-    period: () => 1100,
-    image: (p) => tile(p, 100, swellPath(p, 4, 96)),
-    opacity: 0.3,
-    top: "14%",
-    speed: 12,
-    scroll: 0.2,
-  },
-  {
-    id: "swell-near",
-    period: () => 760,
-    image: (p) => tile(p, 100, swellPath(p, 14, 86)),
-    opacity: 0.5,
-    top: "34%",
-    speed: 20,
-    scroll: 0.35,
-  },
-  {
-    id: "curl",
-    period: (w) => Math.max(w * 1.15, 720),
-    image: () => tile(1560, 200, CURL_PATH),
-    opacity: 1,
-    top: "0%",
-    speed: 26,
-    scroll: 0.5,
-  },
-];
-
-function WaveLayer({
-  layer,
-  width,
-  scrollY,
-  still,
-}: {
-  layer: Layer;
-  width: number;
-  scrollY: MotionValue<number>;
-  still: boolean;
-}) {
-  const x = useMotionValue(0);
-  const period = layer.period(width);
-
-  // Move right forever, and faster while the page scrolls. The layer is one wave wider than
-  // the band and parked one wave to the left, so shifting by less than a wave never shows a gap.
-  useAnimationFrame((time) => {
-    if (still) return;
-    x.set(((time / 1000) * layer.speed + scrollY.get() * layer.scroll) % period);
-  });
-
-  return (
-    <motion.div
-      style={{
-        x,
-        top: layer.top,
-        left: -period,
-        width: `calc(100% + ${period}px)`,
-        opacity: layer.opacity,
-        backgroundImage: layer.image(period),
-        backgroundSize: `${period}px 100%`,
-      }}
-      className="absolute bottom-0 bg-repeat-x will-change-transform"
-    />
-  );
+  for (let x = start, crest = -cycle; x < layer.width; x += 100, crest++) {
+    // Keep each crest's phase as it crosses the frame and another enters on the left.
+    const lift = waveLift(time, crest);
+    if (layer.name === "breaker") {
+      const inset = breakerInset(lift);
+      const peak = 11 + inset;
+      const nextTrough = base - inset;
+      const scale = (nextTrough - peak) / (base - 11);
+      const lip = x + 54;
+      path += ` C ${x + 24} ${trough} ${x + 38} ${peak} ${lip} ${peak}`;
+      // Relative smooth curves share a tangent around the lip and down the inner face.
+      path += ` c ${5 * scale} 0 ${10 * scale} ${7 * scale} ${10 * scale} ${15 * scale}`;
+      path += ` s ${-1.2 * scale} ${5 * scale} ${-1.6 * scale} ${3 * scale}`;
+      path += ` s ${-8.4 * scale} ${-7 * scale} ${-9.2 * scale} ${7 * scale}`;
+      path += ` s ${3 * scale} ${21 * scale} ${9 * scale} ${25 * scale}`;
+      path += ` S ${x + 82} ${nextTrough} ${x + 100} ${nextTrough}`;
+      trough = nextTrough;
+    } else {
+      const peak = base - 15 - 10 * lift;
+      path += ` C ${x + 22} ${base} ${x + 35} ${peak} ${x + 55} ${peak}`;
+      path += ` S ${x + 81} ${base} ${x + 100} ${base}`;
+    }
+  }
+  return `${path} V100 H${start} Z`;
 }
 
-/** Animated shoreline under the hero: faint swells and a breaking wave that all roll right, and roll further as you scroll. */
 export function ShoreWave() {
-  const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-  const ref = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(1280);
+  const band = useRef<HTMLDivElement>(null);
+  const paths = useRef<(SVGPathElement | null)[]>([]);
+  const elapsed = useRef(0);
+  const visible = useInView(band);
 
-  // The breaking wave is sized to the band, so it always shows a whole curl, on a phone or a wide screen.
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const measure = () => setWidth(el.clientWidth);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    if (!visible) return;
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    let last: number | undefined;
+
+    function draw(now: number) {
+      elapsed.current += last === undefined ? 0 : (now - last) / 1000;
+      last = now;
+      layers.forEach((layer, i) => {
+        paths.current[i]?.setAttribute("d", wavePath(layer, elapsed.current));
+      });
+      frame = requestAnimationFrame(draw);
+    }
+
+    function syncMotion() {
+      cancelAnimationFrame(frame);
+      last = undefined;
+      if (!preference.matches && !document.hidden) frame = requestAnimationFrame(draw);
+    }
+
+    syncMotion();
+    preference.addEventListener("change", syncMotion);
+    document.addEventListener("visibilitychange", syncMotion);
+    return () => {
+      cancelAnimationFrame(frame);
+      preference.removeEventListener("change", syncMotion);
+      document.removeEventListener("visibilitychange", syncMotion);
+    };
+  }, [visible]);
 
   return (
-    <div ref={ref} className="shore-wave" aria-hidden="true">
-      {layers.map((layer) => (
-        <WaveLayer key={layer.id} layer={layer} width={width} scrollY={scrollY} still={Boolean(reduce)} />
+    <div ref={band} className="shore-wave" aria-hidden="true">
+      {layers.map((layer, i) => (
+        <svg
+          key={layer.name}
+          viewBox={`0 0 ${layer.width} 100`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full min-w-[36rem] fill-current"
+          opacity={layer.opacity}
+        >
+          <path ref={(el) => { paths.current[i] = el; }} d={wavePath(layer, 0)} />
+        </svg>
       ))}
     </div>
   );
