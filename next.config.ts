@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    // The Visit page became Find Us. Keep old links working.
+    return [{ source: "/visit", destination: "/find-us", permanent: true }];
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 90],

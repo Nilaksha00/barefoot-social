@@ -9,22 +9,17 @@ import { Wordmark } from "@/components/ui/Logo";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { site } from "@/content/site";
 import { ease } from "@/lib/motion";
-import { cn, indexLabel, whatsappLink } from "@/lib/utils";
+import { cn, emailLink, indexLabel, whatsappLink } from "@/lib/utils";
 
-/** Floating glass "pill" header that tucks away on scroll down. */
+/** Floating glass "pill" header. Stays pinned to the top of every page so navigation and booking are always one tap away. */
 export function Header() {
   const pathname = usePathname();
   const lenis = useLenis();
   const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useMotionValueEvent(scrollY, "change", (y) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    setHidden(y > previous && y > 200);
-    setScrolled(y > 24);
-  });
+  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
   useEffect(() => {
     if (open) lenis?.stop();
@@ -34,22 +29,18 @@ export function Header() {
   const close = () => setOpen(false);
 
   // Home opens on a video and inner pages on a full-bleed photo, so the header is light until it gains its own background.
-  const hasPhotoHero = pathname === "/" || site.nav.some((item) => item.href === pathname);
+  const hasPhotoHero = site.nav.some((item) => item.href === pathname);
   const onPhoto = hasPhotoHero && !scrolled && !open;
 
   return (
     <>
-      <motion.header
-        animate={{ y: hidden && !open ? "-130%" : "0%" }}
-        transition={{ duration: 0.6, ease }}
-        className="fixed inset-x-0 top-0 z-50"
-      >
+      <header className="fixed inset-x-0 top-0 z-50">
         <div className="px-3 pt-3 md:px-6 md:pt-4">
           <div
             className={cn(
               "mx-auto flex h-14 max-w-[1440px] items-center justify-between rounded-full pl-1.5 pr-2 transition-[background-color,box-shadow,border-color] duration-500 md:h-16 lg:pl-7",
               scrolled || open
-                ? "border border-line bg-paper/75 shadow-[0_8px_30px_rgb(20_20_18/0.06)] backdrop-blur-xl"
+                ? "border border-line bg-cream/85 backdrop-blur-xl"
                 : "border border-transparent",
               onPhoto && "text-paper",
             )}
@@ -83,7 +74,7 @@ export function Header() {
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "relative z-10 block rounded-full px-4 py-2 text-[11px] font-medium uppercase tracking-wide-plus transition-colors duration-300",
+                          "relative z-10 block rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wide-plus transition-colors duration-300",
                           active ? (onPhoto ? "text-ink" : "text-paper") : onPhoto ? "hover:bg-paper/15" : "hover:bg-ink/5",
                         )}
                       >
@@ -114,13 +105,15 @@ export function Header() {
                   )}
                 >
                   <span className="hidden size-1.5 animate-pulse rounded-full bg-current sm:block" aria-hidden />
-                  Book now
+                  <span>
+                    Book<span className="hidden sm:inline"> Your Stay</span>
+                  </span>
                 </a>
               </Magnetic>
             </div>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       <AnimatePresence>
         {open && (
@@ -130,7 +123,7 @@ export function Header() {
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.8, ease }}
-            className="fixed inset-0 z-40 flex flex-col bg-paper px-5 pb-10 pt-28 md:px-10 lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-cream px-5 pb-10 pt-28 md:px-10 lg:hidden"
           >
             <nav aria-label="Mobile" className="flex-1">
               <ul className="space-y-1">
@@ -162,10 +155,10 @@ export function Header() {
               transition={{ delay: 0.5 }}
               className="flex flex-wrap gap-x-8 gap-y-2 border-t border-line pt-6 text-xs uppercase tracking-wide-plus"
             >
-              <a href={site.bookingUrl} target="_blank" rel="noreferrer">Book on Booking.com</a>
-              <a href={whatsappLink()} target="_blank" rel="noreferrer">WhatsApp</a>
-              <a href={`mailto:${site.contact.email}`}>Email</a>
-              <a href={site.contact.instagram} target="_blank" rel="noreferrer">Instagram</a>
+              <a href={site.bookingUrl} target="_blank" rel="noreferrer">{site.bookLabel}</a>
+              {whatsappLink() && <a href={whatsappLink()!} target="_blank" rel="noreferrer">WhatsApp</a>}
+              {emailLink() && <a href={emailLink()!}>Email</a>}
+              {site.contact.instagram && <a href={site.contact.instagram} target="_blank" rel="noreferrer">Instagram</a>}
             </motion.div>
           </motion.div>
         )}

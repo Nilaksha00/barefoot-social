@@ -2,7 +2,8 @@
 
 import { animate, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef } from "react";
-import { LogoMark, Wordmark } from "@/components/ui/Logo";
+import { Button } from "@/components/ui/Button";
+import { LogoMark } from "@/components/ui/Logo";
 import { SplitText } from "@/components/ui/SplitText";
 import { hero } from "@/content/home";
 import { site } from "@/content/site";
@@ -67,29 +68,42 @@ export function Hero() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/40 via-transparent to-ink/50" />
 
         <motion.div style={reduce ? undefined : { y, opacity }} className="flex flex-col items-center">
-          <LogoMark animated className="w-28 md:w-36" />
-          <motion.div
+          <LogoMark animated className="w-24 md:w-32" />
+          <motion.p
             initial={{ opacity: 0, letterSpacing: "0.1em" }}
-            animate={{ opacity: 1, letterSpacing: "0em" }}
+            animate={{ opacity: 1, letterSpacing: "0.42em" }}
             transition={{ duration: 1.6, ease, delay: 0.6 }}
-            className="mt-6 text-lg md:text-2xl"
+            className="mt-6 pl-[0.42em] text-[11px] font-medium uppercase md:text-sm"
           >
-            <Wordmark />
-          </motion.div>
+            {hero.eyebrow}
+          </motion.p>
 
-          <h1 className="mt-14 uppercase md:mt-16">
-            <SplitText immediate delay={0.9} text={hero.titleTop} className="block text-display" />
-            <SplitText immediate delay={1.05} stagger={0.05} text={hero.titleBottom} className="mt-2 block text-[clamp(1.6rem,5.4vw,5.25rem)] leading-none" />
+          <h1 className="mt-10 max-w-5xl uppercase md:mt-12">
+            <SplitText immediate delay={0.9} stagger={0.1} text={hero.title} className="block text-[clamp(2.75rem,8.4vw,8rem)] leading-[0.95]" />
           </h1>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.6 }}
-            className="mt-10 pl-[0.42em] text-[11px] uppercase tracking-brand md:text-xs"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease, delay: 1.5 }}
+            className="mt-8 max-w-xl text-lg leading-relaxed text-paper/90 md:text-xl"
           >
-            {site.pillars.join(" • ")}
+            {hero.body}
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease, delay: 1.7 }}
+            className="mt-10 flex flex-wrap justify-center gap-3"
+          >
+            <Button href="#explore" variant="light">
+              Explore Barefoot
+            </Button>
+            <Button href={site.bookingUrl} variant="outline-light">
+              {site.bookLabel}
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
       <div className="shore-wave" aria-hidden="true">

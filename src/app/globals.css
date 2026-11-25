@@ -4,14 +4,17 @@
 /* ---------------------------------------------------------------------------
    Design tokens — Barefoot Social
    Clean black and white. Warmth comes from the photography, not the palette.
+   Brand palette: black #111, white, warm off-white #F7F6F2, light grey #EAEAEA,
+   charcoal text #222.
 --------------------------------------------------------------------------- */
 @theme {
   --color-paper: #ffffff;
-  --color-sand: #f2f2f0;
-  --color-ink: #0e0e0e;
-  --color-ink-soft: #333333;
-  --color-mute: #6f6f6f;
-  --color-line: rgb(14 14 14 / 0.12);
+  --color-cream: #f7f6f2; /* page background */
+  --color-sand: #eaeaea; /* light grey surfaces */
+  --color-ink: #111111;
+  --color-ink-soft: #222222; /* body text */
+  --color-mute: #6b6b66;
+  --color-line: rgb(17 17 17 / 0.12);
 
   --tracking-brand: 0.42em;
   --tracking-wide-plus: 0.22em;
@@ -20,12 +23,14 @@
   --text-display--line-height: 0.92;
   --text-headline: clamp(2.5rem, 6.5vw, 6rem);
   --text-headline--line-height: 0.98;
+  --text-heading: clamp(2.25rem, 4.6vw, 4.5rem);
+  --text-heading--line-height: 1;
   --text-title: clamp(1.75rem, 3.2vw, 2.75rem);
   --text-title--line-height: 1.08;
   --text-lede: clamp(1.15rem, 1.8vw, 1.6rem);
   --text-lede--line-height: 1.45;
 
-  --radius-card: 1.75rem;
+  --radius-card: 0.5rem;
 
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -44,8 +49,8 @@
 
 @layer base {
   html {
-    background: var(--color-paper);
-    color: var(--color-ink);
+    background: var(--color-cream);
+    color: var(--color-ink-soft);
     -webkit-tap-highlight-color: transparent;
   }
   body {
@@ -53,7 +58,8 @@
     font-weight: 400;
   }
   h1, h2, h3 {
-    font-weight: 400;
+    font-weight: 500;
+    letter-spacing: -0.005em;
     text-wrap: balance;
   }
   ::selection {
@@ -104,7 +110,7 @@
   height: clamp(6rem, 17vw, 13rem);
   overflow: hidden;
   pointer-events: none;
-  color: var(--color-paper);
+  color: var(--color-cream);
 }
 
 .shore-wave svg {

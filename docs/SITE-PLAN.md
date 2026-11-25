@@ -24,42 +24,24 @@ The photos are free Unsplash samples (listed in `src/content/photos.ts`) and wil
 ## Sitemap
 
 ```
-/            Home
-/eat         Eat (sample menu)
-/drink       Drink (beverage culture and the bar)
-/stay        Stay (private rooms, hostel beds and a Book on Booking.com card)
-/surf        Surf (lessons for every level, questions via WhatsApp or email)
-/visit       Visit (address, hours, map, FAQ)
+/            Home (hero, intro, Eat/Drink/Stay/Surf blocks, food, bar, rooms, surf, social collage, Instagram, location, closing CTA)
+/eat         Eat (philosophy, highlights, signature dishes, breakfast, gallery + lightbox, menu)
+/drink       Drink (introduction, Sri Lankan flavours, signature cocktails, bar experience, gallery, menu, hours)
+/stay        Stay (Private Room 01, Private Room 02, Shared Hostel Room, facilities, booking info, FAQs)
+/surf        Surf (lessons, what to expect, gallery, lesson info, FAQs, lesson enquiry form)
+/our-story   Our Story (the story, philosophy, community, experience collage, location)
+/find-us     Find Us (contact, map, enquiry form with enquiry types, hours, FAQs)
+/privacy     Privacy policy (placeholder until the full policy is supplied)
+/visit       Redirects to /find-us
 ```
 
-The navigation mirrors the brand line (Eat • Drink • Stay • Connect) plus Surf and Visit. There is no Connect page: Connect stays in the brand line and the tone, since no events programme or private events are offered. Surf is part of the Barefoot experience, so it also appears in the home pillar index. The story lives in the home page intro.
-
-## Page-by-page sections
-
-### Home (`/`), 4 sections
-1. **Hero**: the launch poster brought to life. The logo draws itself, the wordmark settles, and "Weligama, we're almost home." rises word by word above drifting line waves.
-2. **Your Social House**: the bay photo sits beside the story. As you scroll, it opens from a small frame to full size, zooms out and drifts, and the copy lights up word by word.
-3. **Pillar index**: EAT / DRINK / STAY / SURF as oversized type rows. Hovering dims the others; on mobile a thumbnail shows inline.
-4. **Closing card**: Book now (Booking.com), plus WhatsApp and Email for questions, beside the address, hours and live Weligama time.
-
-### Eat
-Page intro, the sample menu (Mornings / All day / Sweet, with dietary tags), then the closing card.
-
-### Drink
-Page intro, *From palm to glass* (Toddy → Arrack → Tea → Kithul), the sample drinks list, then the closing card.
-
-### Stay
-Page intro, the room cards, then **Book your stay**, which links to Booking.com, with WhatsApp and email for questions.
-
-### Surf
-Page intro, the two levels from the brief (first time on a board / getting more comfortable), then a questions card (WhatsApp and email).
-
-### Visit
-Page intro, the address, hours and contact beside a greyscale map, then the FAQ.
+The navigation is Home, Eat, Drink, Stay, Surf, Our Story and Find Us, plus a prominent Book Your Stay button. The header stays pinned on every page.
 
 ## Bookings
 There is no booking engine on the site. `site.bookingUrl` in `src/content/site.ts` points to the property's Booking.com page.
 The current value is a Booking.com search placeholder until the client shares their listing link.
+
+The only things the site itself collects are **enquiries** (Find Us form, surf lesson form). They are delivered through `ENQUIRY_WEBHOOK_URL` and never presented as a booking.
 
 ## Needed from the client
 - [ ] Official logo as SVG (to replace `LogoMark` in `src/components/ui/Logo.tsx`)

@@ -1,11 +1,9 @@
 import type { ReactNode } from "react";
-import { Button } from "@/components/ui/Button";
 import { Container, Eyebrow } from "@/components/ui/Container";
 import { LineDraw } from "@/components/ui/LineDraw";
 import { Reveal } from "@/components/ui/Reveal";
 import type { MenuGroup, Step } from "@/types/content";
-import { site } from "@/content/site";
-import { cn, indexLabel, whatsappLink } from "@/lib/utils";
+import { cn, indexLabel } from "@/lib/utils";
 
 const surfaces = {
   plain: "",
@@ -36,17 +34,17 @@ export function Section({
   const card = surface === "sand";
   return (
     <section className={cn(card && "px-3 md:px-6", className)}>
-      <div className={cn("relative overflow-hidden py-24 md:py-36", card && "rounded-[var(--radius-card)]", surfaces[surface])}>
+      <div className={cn("relative overflow-hidden py-20 md:py-32", card && "rounded-[var(--radius-card)]", surfaces[surface])}>
         {surface === "ink" && <div aria-hidden className="grain pointer-events-none absolute inset-0" />}
         <Container className="relative">
           <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-              <h2 className="mt-4 max-w-3xl text-title uppercase">{title}</h2>
+              <h2 className="mt-4 max-w-3xl text-heading uppercase">{title}</h2>
             </div>
             {aside}
           </Reveal>
-          <div className="mt-14 md:mt-20">{children}</div>
+          <div className="mt-12 md:mt-16">{children}</div>
         </Container>
       </div>
     </section>
@@ -106,47 +104,5 @@ export function MenuList({ groups }: { groups: MenuGroup[] }) {
         </Reveal>
       ))}
     </div>
-  );
-}
-
-/**
- * Closing card for Stay and Surf. Bookings happen on Booking.com only, so the
- * primary action links there; WhatsApp and email are offered for questions.
- */
-export function ActionSection({
-  id,
-  eyebrow,
-  title,
-  body,
-  primary,
-}: {
-  id?: string;
-  eyebrow: string;
-  title: string;
-  body: string;
-  primary?: { label: string; href: string };
-}) {
-  return (
-    <section id={id} className="px-3 md:px-6">
-      <div className="rounded-[var(--radius-card)] bg-sand py-20 md:py-28">
-        <Container className="grid gap-12 md:grid-cols-12 md:items-end">
-          <Reveal className="md:col-span-6">
-            <Eyebrow>{eyebrow}</Eyebrow>
-            <h2 className="mt-4 text-headline uppercase">{title}</h2>
-            <p className="mt-6 max-w-md text-mute">{body}</p>
-          </Reveal>
-          <Reveal delay={0.1} className="md:col-span-5 md:col-start-8">
-            {primary && <Button href={primary.href}>{primary.label}</Button>}
-            <div className={cn(primary && "mt-10 border-t border-line pt-8")}>
-              <p className="text-[11px] uppercase tracking-wide-plus text-mute">Questions? Ask us</p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                <Button href={whatsappLink("Hi Barefoot Social! I have a question.")} variant="outline">WhatsApp</Button>
-                <Button href={`mailto:${site.contact.email}`} variant="outline">Email</Button>
-              </div>
-            </div>
-          </Reveal>
-        </Container>
-      </div>
-    </section>
   );
 }

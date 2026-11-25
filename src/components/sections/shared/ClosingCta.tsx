@@ -1,57 +1,90 @@
-import { LocalClock } from "@/components/layout/LocalClock";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
+import { Container, Eyebrow } from "@/components/ui/Container";
+import { Photo } from "@/components/ui/Photo";
 import { Reveal } from "@/components/ui/Reveal";
 import { SplitText } from "@/components/ui/SplitText";
 import { closing } from "@/content/home";
 import { site } from "@/content/site";
-import { whatsappLink } from "@/lib/utils";
+import type { MediaRef } from "@/types/content";
 
-/** One closing card per page: an invitation on the left, the practical details on the right. */
-export function ClosingCta({ title = closing.title, body = closing.body }: { title?: string; body?: string }) {
+type Action = { label: string; href: string };
+
+const defaultPrimary: Action = { label: site.bookLabel, href: site.bookingUrl };
+const defaultSecondary: Action = { label: "Get In Touch", href: "/find-us#enquire" };
+
+/**
+ * The closing call to action on every page: a large atmospheric photograph
+ * with a short invitation and up to two buttons. Pass `null` to drop a button.
+ * Pass `children` (e.g. an enquiry form) to show it in a panel beside the text
+ * instead of the buttons.
+ */
+export function ClosingCta({
+  title = closing.title,
+  body = closing.body,
+  media = closing.media,
+  primary = defaultPrimary,
+  secondary = defaultSecondary,
+  eyebrow,
+  id,
+  children,
+}: {
+  title?: string;
+  body?: string;
+  media?: MediaRef;
+  primary?: Action | null;
+  secondary?: Action | null;
+  eyebrow?: string;
+  id?: string;
+  children?: ReactNode;
+}) {
+  const panel = Boolean(children);
   return (
-    <section className="px-3 md:px-6">
-      <div className="rounded-[var(--radius-card)] bg-sand py-20 md:py-28">
-        <Container className="grid gap-14 md:grid-cols-12 md:items-end">
-          <div className="md:col-span-7">
-            <SplitText as="h2" text={title} className="block text-headline uppercase" />
-            <Reveal delay={0.15}>
-              <p className="mt-6 max-w-md text-mute">{body}</p>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <Button href={site.bookingUrl}>Book now</Button>
-                <Button href={whatsappLink("Hi Barefoot Social! I have a question.")} variant="outline">WhatsApp</Button>
-                <Button href={`mailto:${site.contact.email}`} variant="outline">Email</Button>
-              </div>
-            </Reveal>
-          </div>
+    <section id={id} className="relative isolate scroll-mt-24 overflow-hidden bg-ink text-paper">
+      <Photo media={media} label={false} square sizes="100vw" className="absolute inset-0 -z-10 size-full" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-ink/55" />
 
-          <Reveal delay={0.2} className="md:col-span-4 md:col-start-9">
-            <dl className="divide-y divide-line border-y border-line text-sm">
-              <div className="flex justify-between gap-6 py-4">
-                <dt className="shrink-0 text-mute">Find us</dt>
-                <dd className="text-right">
-                  <a href={site.address.mapsUrl} target="_blank" rel="noreferrer" className="link-underline">
-                    {site.address.lines.slice(0, 2).join(", ")}
-                  </a>
-                </dd>
+      <Container
+        className={
+          panel
+            ? "grid gap-12 py-24 md:grid-cols-12 md:items-center md:gap-x-10 md:py-32"
+            : "flex min-h-[80svh] flex-col items-center justify-center py-28 text-center"
+        }
+      >
+        <div className={panel ? "md:col-span-5" : "max-w-4xl"}>
+          {eyebrow && (
+            <Reveal className={panel ? "" : "flex justify-center"}>
+              <Eyebrow>{eyebrow}</Eyebrow>
+            </Reveal>
+          )}
+          <SplitText as="h2" text={title} className="mt-4 block text-headline uppercase" />
+          <Reveal delay={0.15}>
+            <p className={panel ? "mt-6 max-w-[40ch] text-lg leading-relaxed text-paper/90" : "mx-auto mt-6 max-w-[48ch] text-lg leading-relaxed text-paper/90"}>
+              {body}
+            </p>
+            {!panel && (primary || secondary) && (
+              <div className="mt-10 flex flex-wrap justify-center gap-3">
+                {primary && (
+                  <Button href={primary.href} variant="light">
+                    {primary.label}
+                  </Button>
+                )}
+                {secondary && (
+                  <Button href={secondary.href} variant="outline-light">
+                    {secondary.label}
+                  </Button>
+                )}
               </div>
-              {site.hours.map((h) => (
-                <div key={h.label} className="flex justify-between gap-6 py-4">
-                  <dt className="shrink-0 text-mute">{h.label}</dt>
-                  <dd>{h.value}</dd>
-                </div>
-              ))}
-              <div className="flex justify-between gap-6 py-4">
-                <dt className="flex shrink-0 items-center gap-2 text-mute">
-                  <span className="size-1.5 animate-pulse rounded-full bg-current" aria-hidden />
-                  Weligama now
-                </dt>
-                <dd><LocalClock /></dd>
-              </div>
-            </dl>
+            )}
           </Reveal>
-        </Container>
-      </div>
+        </div>
+
+        {panel && (
+          <Reveal delay={0.2} className="md:col-span-7">
+            <div className="rounded-[var(--radius-card)] bg-cream p-6 text-ink-soft md:p-10">{children}</div>
+          </Reveal>
+        )}
+      </Container>
     </section>
   );
 }

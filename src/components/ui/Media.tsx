@@ -17,6 +17,11 @@ const tones: Record<Tone, string> = {
 const unsplashLoader: ImageLoader = ({ src, width, quality }) =>
   `${src}?auto=format&fit=crop&w=${width}&q=${quality ?? 75}`;
 
+/** Loader for a photo source: Unsplash samples resize at the CDN, local files use the default. */
+export function loaderFor(src: string): ImageLoader | undefined {
+  return src.startsWith("https://images.unsplash.com/") ? unsplashLoader : undefined;
+}
+
 type MediaProps = {
   media: MediaRef;
   className?: string;
@@ -28,7 +33,6 @@ type MediaProps = {
 
 export function Media({ media, className, sizes = "100vw", preload, label = true }: MediaProps) {
   if (media.src) {
-    const isUnsplash = media.src.startsWith("https://images.unsplash.com/");
     return (
       <div className={cn("relative overflow-hidden bg-sand", className)}>
         <Image
@@ -37,7 +41,7 @@ export function Media({ media, className, sizes = "100vw", preload, label = true
           fill
           sizes={sizes}
           preload={preload}
-          loader={isUnsplash ? unsplashLoader : undefined}
+          loader={loaderFor(media.src)}
           className="object-cover text-transparent"
         />
       </div>

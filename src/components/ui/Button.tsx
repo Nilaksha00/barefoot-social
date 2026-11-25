@@ -18,11 +18,13 @@ type ButtonProps = {
   children: ReactNode;
   variant?: Variant;
   className?: string;
+  /** Offer the linked file (e.g. a menu PDF) as a download instead of navigating to it. */
+  download?: boolean;
 };
 
 /** Pill button that leans toward the cursor; its arrow slides out and back in on hover. */
-export function Button({ href, children, variant = "solid", className }: ButtonProps) {
-  const external = /^(https?:|mailto:|tel:)/.test(href);
+export function Button({ href, children, variant = "solid", className, download }: ButtonProps) {
+  const external = download || /^(https?:|mailto:|tel:)/.test(href);
   const classes = cn(
     "group inline-flex h-12 items-center gap-3 rounded-full pl-6 pr-2 text-[12px] font-medium uppercase tracking-wide-plus transition-colors duration-300",
     variants[variant],
@@ -40,7 +42,13 @@ export function Button({ href, children, variant = "solid", className }: ButtonP
   if (external) {
     return (
       <Magnetic className={className}>
-        <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={classes}>
+        <a
+          href={href}
+          download={download || undefined}
+          target={href.startsWith("http") ? "_blank" : undefined}
+          rel="noreferrer"
+          className={classes}
+        >
           {content}
         </a>
       </Magnetic>

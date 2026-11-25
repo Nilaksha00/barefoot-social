@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { ActionSection, Section } from "@/components/sections/shared/Blocks";
+import { Section, StepGrid } from "@/components/sections/shared/Blocks";
+import { ClosingCta } from "@/components/sections/shared/ClosingCta";
+import { Editorial } from "@/components/sections/shared/Editorial";
+import { FaqList } from "@/components/sections/shared/FaqList";
 import { PageIntro } from "@/components/sections/shared/PageIntro";
-import { ImageReveal } from "@/components/ui/ImageReveal";
-import { Media } from "@/components/ui/Media";
-import { Reveal } from "@/components/ui/Reveal";
+import { Button } from "@/components/ui/Button";
+import { FactList, Tbc } from "@/components/ui/Placeholder";
 import { stay } from "@/content/pages";
 import { site } from "@/content/site";
-import { indexLabel } from "@/lib/utils";
+import { indexLabel, slugify } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Stay",
-  description: stay.intro.lede,
+  description:
+    "Two private rooms and a shared hostel room at Barefoot Social in Weligama: a laid-back base between beach days.",
 };
 
 export default function StayPage() {
@@ -18,38 +21,62 @@ export default function StayPage() {
     <>
       <PageIntro intro={stay.intro} />
 
-      <Section eyebrow="The rooms" title="Private rooms and hostel beds">
-        <ul className="grid gap-12 md:grid-cols-2 md:gap-6">
-          {stay.rooms.map((room, i) => (
-            <li key={room.name} className="group">
-              <ImageReveal delay={i * 0.12}>
-                <Media
-                  media={room.media}
-                  label={false}
-                  className="aspect-[4/3] transition-transform duration-[1200ms] ease-out-expo group-hover:scale-105"
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                />
-              </ImageReveal>
-              <Reveal delay={0.25 + i * 0.12}>
-                <div className="mt-6 flex items-baseline justify-between">
-                  <h3 className="text-2xl uppercase">{room.name}</h3>
-                  <span className="text-[11px] tracking-wide-plus text-mute">{indexLabel(i)}</span>
-                </div>
-                <p className="mt-1 text-[11px] uppercase tracking-wide-plus text-mute">{room.sleeps}</p>
-                <p className="mt-4 text-sm text-ink-soft">{room.description}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+      <Editorial copy={stay.introduction.copy} />
+
+      {/* One editorial block per room. The photo alternates sides down the page. */}
+      {stay.rooms.map((room, i) => (
+        <Editorial
+          key={room.name}
+          id={slugify(room.name)}
+          copy={{ eyebrow: `${room.kind} · ${indexLabel(i)}`, title: room.name, paragraphs: [room.description] }}
+          main={room.media}
+          ratio="aspect-[4/3]"
+          reverse={i % 2 === 1}
+          surface={i % 2 === 1 ? "sand" : "plain"}
+        >
+          <FactList facts={room.details} />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button href={site.bookingUrl}>{site.bookLabel}</Button>
+            <Button href="/find-us#enquire" variant="outline">
+              Ask a Question
+            </Button>
+          </div>
+        </Editorial>
+      ))}
+
+      <Section eyebrow="Facilities" title="Under one roof">
+        <StepGrid steps={stay.facilities} columns={4} />
+        <p className="mt-10 flex flex-wrap items-center gap-3 text-sm text-mute">
+          <Tbc>Room amenities to be confirmed</Tbc>
+          Only confirmed facilities are listed here.
+        </p>
       </Section>
 
-      <ActionSection
-        id="book"
-        eyebrow="Book"
-        title={stay.howToStay.title}
-        body={stay.howToStay.body}
-        primary={{ label: "Book on Booking.com", href: site.bookingUrl }}
-      />
+      <Section eyebrow="Booking information" title="Before you book" surface="sand">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-x-16">
+          <div className="md:col-span-6">
+            <FactList facts={stay.bookingFacts} />
+          </div>
+          <div className="md:col-span-5 md:col-start-8">
+            <p className="text-lg leading-relaxed text-ink-soft">
+              Private rooms and hostel beds are booked on Booking.com. This website only collects enquiries and never confirms a booking. For
+              anything else, send us a message.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href={site.bookingUrl}>{site.bookLabel}</Button>
+              <Button href="/find-us#enquire" variant="outline">
+                Booking Enquiry
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section eyebrow="FAQs" title="Good to know">
+        <FaqList faqs={stay.faqs} />
+      </Section>
+
+      <ClosingCta {...stay.cta} secondary={{ label: "Ask a Question", href: "/find-us#enquire" }} />
     </>
   );
 }
